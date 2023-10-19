@@ -52,6 +52,12 @@ async function run() {
       const result = await cartCollection.insertOne(cart);
       res.send(result);
     })
+    app.get('/cart', async(req, res)=>{
+      const cursor = cartCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
 
 
     // Send a ping to confirm a successful connection
