@@ -28,12 +28,28 @@ async function run() {
     await client.connect();
 
     const productCollection = client.db('productDB').collection('product');
+    const cartCollection = client.db('productDB').collection('cart')
 
+    //Product related apis
+    app.get('/product', async(req, res)=>{
+      const cursor = productCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
 
-    app.post('/addProduct', async(req, res)=>{
+    app.post('/product', async(req, res)=>{
       const newProduct = req.body;
       console.log(newProduct);
       const result = await productCollection.insertOne(newProduct);
+      res.send(result);
+    })
+
+
+    //Cart related apis
+    app.post('/cart', async(req, res)=>{
+      const cart = req.body;
+      console.log(cart);
+      const result = await cartCollection.insertOne(cart);
       res.send(result);
     })
 
