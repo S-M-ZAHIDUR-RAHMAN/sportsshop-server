@@ -44,6 +44,26 @@ async function run() {
       res.send(result);
     })
 
+    app.put('/product/:id', async(req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert: true};
+      const updateProduct = req.body;
+      const product = {
+        $set: {
+          name: updateProduct.name, 
+          brandName: updateProduct.brandName, 
+          type: updateProduct.type, 
+          price: updateProduct.price, 
+          shortDescription: updateProduct.shortDescription, 
+          rating: updateProduct.rating, 
+          imageURL: updateProduct.imageURL
+        }
+      }
+      const result = await productCollection.updateOne(filter, product, options);
+      res.send(result);
+    })
+
 
     //Cart related apis
     app.post('/cart', async(req, res)=>{
